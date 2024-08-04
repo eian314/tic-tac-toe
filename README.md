@@ -32,7 +32,7 @@ To run this project locally, follow these steps:
 1. Clone the repository:
 
     ```sh
-    git clone https://github.com/YOUR_GITHUB_USERNAME/tic-tac-toe.git
+    git clonehttps://eian314.github.io/tic-tac-toe/
     cd tic-tac-toe
     ```
 
@@ -40,7 +40,7 @@ To run this project locally, follow these steps:
 
 ## Live Demo
 
-You can access the live version of the game [here](https://YOUR_GITHUB_USERNAME.github.io/tic-tac-toe/).
+You can access the live version of the game [here](https://eian314.github.io/tic-tac-toe/).
 
 ## Technologies Used
 
