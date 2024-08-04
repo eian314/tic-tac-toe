@@ -47,6 +47,28 @@ document.addEventListener("DOMContentLoaded", () => {
         return false;
     };
 
+    const generateMathProblem = () => {
+        const num1 = Math.floor(Math.random() * 10) + 1;
+        const num2 = Math.floor(Math.random() * 10) + 1;
+        const operator = ["+", "-", "*", "/"][Math.floor(Math.random() * 4)];
+        let answer;
+        switch (operator) {
+            case "+":
+                answer = num1 + num2;
+                break;
+            case "-":
+                answer = num1 - num2;
+                break;
+            case "*":
+                answer = num1 * num2;
+                break;
+            case "/":
+                answer = Math.floor(num1 / num2);
+                break;
+        }
+        return { problem: `${num1} ${operator} ${num2} = ?`, answer: answer.toString() };
+    };
+
     const cellClickHandler = (e) => {
         const cell = e.target;
         const index = Array.from(cells).indexOf(cell);
@@ -54,23 +76,39 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!gameActive || cell.classList.contains("completed")) return;
 
         if (cell.textContent === "") {
-            const lineType = prompt("Add vertical or horizontal line? (v/h)");
-            if (lineType === "v") {
-                cell.textContent = "|";
-                cell.classList.add(currentPlayer === "Player 1" ? "red" : "blue");
-                lastTurnIndex = index;
-                switchPlayer();
-            } else if (lineType === "h") {
-                cell.textContent = "—";
-                cell.classList.add(currentPlayer === "Player 1" ? "red" : "blue");
-                lastTurnIndex = index;
+            const { problem, answer } = generateMathProblem();
+            const userAnswer = prompt(problem);
+
+            if (userAnswer === answer) {
+                const lineType = prompt("Add vertical or horizontal line? (v/h)");
+                if (lineType === "v") {
+                    cell.textContent = "|";
+                    cell.classList.add(currentPlayer === "Player 1" ? "red" : "blue");
+                    lastTurnIndex = index;
+                    switchPlayer();
+                } else if (lineType === "h") {
+                    cell.textContent = "—";
+                    cell.classList.add(currentPlayer === "Player 1" ? "red" : "blue");
+                    lastTurnIndex = index;
+                    switchPlayer();
+                }
+            } else {
+                alert("Incorrect answer! Turn lost.");
                 switchPlayer();
             }
         } else if ((cell.textContent === "|" || cell.textContent === "—") && index !== lastTurnIndex) {
-            cell.textContent = "T";
-            cell.classList.remove("red", "blue");
-            cell.classList.add("completed");
-            if (!checkWin()) {
+            const { problem, answer } = generateMathProblem();
+            const userAnswer = prompt(problem);
+
+            if (userAnswer === answer) {
+                cell.textContent = "T";
+                cell.classList.remove("red", "blue");
+                cell.classList.add("completed");
+                if (!checkWin()) {
+                    switchPlayer();
+                }
+            } else {
+                alert("Incorrect answer! Turn lost.");
                 switchPlayer();
             }
         }
@@ -82,4 +120,3 @@ document.addEventListener("DOMContentLoaded", () => {
     // Set initial player label color to black when the game first loads
     playerLabel.style.color = "black";
 });
- 
