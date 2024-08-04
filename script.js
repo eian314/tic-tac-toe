@@ -28,9 +28,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const checkWin = () => {
         const winPatterns = [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
-            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
-            [0, 4, 8], [2, 4, 6]             // Diagonals
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], 
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
+            [0, 4, 8], [2, 4, 6]             // digonals
         ];
 
         for (let pattern of winPatterns) {
@@ -117,6 +117,6 @@ document.addEventListener("DOMContentLoaded", () => {
     startButton.addEventListener("click", startGame);
     cells.forEach(cell => cell.addEventListener("click", cellClickHandler));
 
-    // Set initial player label color to black when the game first loads
+    //  initial player  color to black when game t loads
     playerLabel.style.color = "black";
 });
