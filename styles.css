@@ -40,7 +40,7 @@ body {
 .player-label {
     margin: 20px 0;
     font-size: 1.5em;
-    color: black; 
+    color: black;
 }
 
 .board {
@@ -122,6 +122,26 @@ body {
     }
 }
 
+.correct-answer {
+    background-color: lightgreen;
+    animation: correctAnswer 1s ease;
+}
+
+.incorrect-answer {
+    background-color: lightcoral;
+    animation: incorrectAnswer 1s ease;
+}
+
+@keyframes correctAnswer {
+    from { background-color: white; }
+    to { background-color: lightgreen; }
+}
+
+@keyframes incorrectAnswer {
+    from { background-color: white; }
+    to { background-color: lightcoral; }
+}
+
 @media (max-width: 600px) {
     .board {
         grid-template-columns: repeat(3, 70px);
@@ -141,4 +161,3 @@ body {
         font-size: 1.2em;
     }
 }
-

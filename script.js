@@ -28,9 +28,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const checkWin = () => {
         const winPatterns = [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8], 
-            [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
-            [0, 4, 8], [2, 4, 6]             // digonals
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+            [0, 4, 8], [2, 4, 6]             // Diagonals
         ];
 
         for (let pattern of winPatterns) {
@@ -54,16 +54,16 @@ document.addEventListener("DOMContentLoaded", () => {
         let answer;
         switch (operator) {
             case "+":
-                answer = num1 + num2;
+                answer = math.add(num1, num2);
                 break;
             case "-":
-                answer = num1 - num2;
+                answer = math.subtract(num1, num2);
                 break;
             case "*":
-                answer = num1 * num2;
+                answer = math.multiply(num1, num2);
                 break;
             case "/":
-                answer = Math.floor(num1 / num2);
+                answer = math.floor(math.divide(num1, num2));
                 break;
         }
         return { problem: `${num1} ${operator} ${num2} = ?`, answer: answer.toString() };
@@ -80,36 +80,52 @@ document.addEventListener("DOMContentLoaded", () => {
             const userAnswer = prompt(problem);
 
             if (userAnswer === answer) {
-                const lineType = prompt("Add vertical or horizontal line? (v/h)");
-                if (lineType === "v") {
-                    cell.textContent = "|";
-                    cell.classList.add(currentPlayer === "Player 1" ? "red" : "blue");
-                    lastTurnIndex = index;
-                    switchPlayer();
-                } else if (lineType === "h") {
-                    cell.textContent = "—";
-                    cell.classList.add(currentPlayer === "Player 1" ? "red" : "blue");
-                    lastTurnIndex = index;
-                    switchPlayer();
-                }
+                cell.classList.add("correct-answer");
+                setTimeout(() => {
+                    cell.classList.remove("correct-answer");
+                    const lineType = prompt("Add vertical or horizontal line? (v/h)");
+                    if (lineType === "v") {
+                        cell.textContent = "|";
+                        cell.classList.add(currentPlayer === "Player 1" ? "red" : "blue");
+                        lastTurnIndex = index;
+                        switchPlayer();
+                    } else if (lineType === "h") {
+                        cell.textContent = "—";
+                        cell.classList.add(currentPlayer === "Player 1" ? "red" : "blue");
+                        lastTurnIndex = index;
+                        switchPlayer();
+                    }
+                }, 500);
             } else {
-                alert("Incorrect answer! Turn lost.");
-                switchPlayer();
+                cell.classList.add("incorrect-answer");
+                setTimeout(() => {
+                    cell.classList.remove("incorrect-answer");
+                    alert("Incorrect answer! Turn lost.");
+                    switchPlayer();
+                }, 500);
             }
         } else if ((cell.textContent === "|" || cell.textContent === "—") && index !== lastTurnIndex) {
             const { problem, answer } = generateMathProblem();
             const userAnswer = prompt(problem);
 
             if (userAnswer === answer) {
-                cell.textContent = "T";
-                cell.classList.remove("red", "blue");
-                cell.classList.add("completed");
-                if (!checkWin()) {
-                    switchPlayer();
-                }
+                cell.classList.add("correct-answer");
+                setTimeout(() => {
+                    cell.classList.remove("correct-answer");
+                    cell.textContent = "T";
+                    cell.classList.remove("red", "blue");
+                    cell.classList.add("completed");
+                    if (!checkWin()) {
+                        switchPlayer();
+                    }
+                }, 500);
             } else {
-                alert("Incorrect answer! Turn lost.");
-                switchPlayer();
+                cell.classList.add("incorrect-answer");
+                setTimeout(() => {
+                    cell.classList.remove("incorrect-answer");
+                    alert("Incorrect answer! Turn lost.");
+                    switchPlayer();
+                }, 500);
             }
         }
     };
@@ -117,6 +133,6 @@ document.addEventListener("DOMContentLoaded", () => {
     startButton.addEventListener("click", startGame);
     cells.forEach(cell => cell.addEventListener("click", cellClickHandler));
 
-    //  initial player  color to black when game t loads
+    // Set initial player label color to black when the game first loads
     playerLabel.style.color = "black";
 });
